@@ -33,8 +33,9 @@ and clean component hierarchy.
 ## Brand Asset Rule (Required)
 
 - Never create ad-hoc logos, favicons, or brand marks for TimeWinder properties.
-- Always reuse official brand assets from the canonical source repo (`TimeWinder-Operations-Hub`), e.g. `frontend/public/favicon.svg` and `frontend/public/favicon.png`.
-- If an asset is missing, request/provide the official file first, then reference it — do not invent a replacement.
+- For public/docs usage, always reference brand assets hosted in this public `skills` repo (e.g. `docs/favicon.svg`).
+- Keep those assets synchronized from official Operations Hub brand files (`frontend/public/favicon.svg` and `frontend/public/favicon.png`).
+- If an asset is missing, add the official file first and then reference it — do not invent a replacement.
 
 ---
 
