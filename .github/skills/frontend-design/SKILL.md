@@ -1,6 +1,6 @@
 ---
 name: frontend-design
-version: 1.0.0
+version: 1.0.1
 releaseDate: 2026-07-03
 description: |
   SPFx webparts, React components, Fluent UI, service pattern with AAD auth, session storage,
@@ -29,6 +29,12 @@ and clean component hierarchy.
 - If Fluent UI components are unavailable, keep the same interaction and accessibility semantics using equivalent components.
 - If AAD client initialization fails in local/dev contexts, provide a deterministic sample-data mode without changing production auth flow.
 - If hooks-based refactor is too large for one change, isolate side effects first, then migrate state/event handlers incrementally.
+
+## Brand Asset Rule (Required)
+
+- Never create ad-hoc logos, favicons, or brand marks for TimeWinder properties.
+- Always reuse official brand assets from the canonical source repo (`TimeWinder-Operations-Hub`), e.g. `frontend/public/favicon.svg` and `frontend/public/favicon.png`.
+- If an asset is missing, request/provide the official file first, then reference it — do not invent a replacement.
 
 ---
 
@@ -92,5 +98,6 @@ Consistent use of Fluent components, icons, and theming.
 - ✅ Session storage reads/writes fail silently (no quota errors)
 - ✅ Dialogs use portal pattern (ReactDOM.createPortal)
 - ✅ Fluent UI components used consistently
+- ✅ Favicon/logo uses official TimeWinder asset (no generated substitute)
 - ✅ Error states displayed to user (no silent failures)
 - ✅ No ES5 forbidden patterns (check Heft build)
