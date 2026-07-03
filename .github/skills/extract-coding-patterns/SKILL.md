@@ -1,5 +1,7 @@
 ---
 name: extract-coding-patterns
+version: 1.0.0
+releaseDate: 2026-07-03
 description: |
   Generic workflow for extracting reusable coding patterns from any codebase and turning them into shareable skills.
   Use when: documenting team conventions, onboarding developers, standardizing implementation approaches, or creating reusable engineering playbooks.

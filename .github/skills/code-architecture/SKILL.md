@@ -1,5 +1,7 @@
 ---
 name: code-architecture
+version: 1.0.0
+releaseDate: 2026-07-03
 description: |
   Backend layered architecture: handler → domain service → repository → persistence provider.
   Use when: creating new backend features, adding repositories, implementing business logic,

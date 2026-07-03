@@ -1,5 +1,7 @@
 ---
 name: frontend-design
+version: 1.0.0
+releaseDate: 2026-07-03
 description: |
   SPFx webparts, React components, Fluent UI, service pattern with AAD auth, session storage,
   and TypeScript+ES5 constraints. Use when: building new webparts, creating React components,

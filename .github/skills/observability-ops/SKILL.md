@@ -1,5 +1,7 @@
 ---
 name: observability-ops
+version: 1.0.0
+releaseDate: 2026-07-03
 description: |
   Operational observability patterns for reliable diagnosis, alerting, and incident response.
   Use when: building new backend flows, adding integrations, introducing background jobs, or preparing production rollout.

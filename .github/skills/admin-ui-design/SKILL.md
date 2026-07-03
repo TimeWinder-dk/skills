@@ -1,5 +1,7 @@
 ---
 name: admin-ui-design
+version: 1.0.0
+releaseDate: 2026-07-03
 description: |
   Admin interface patterns with feature gates, destructive operation guards, audit trail visibility,
   and permission-based UI customization. Use when: designing admin dashboards, adding admin features,

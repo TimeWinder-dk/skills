@@ -1,5 +1,7 @@
 ---
 name: security-hardening
+version: 1.0.0
+releaseDate: 2026-07-03
 description: |
   Authentication, authorization, input validation, CORS, rate limiting, abuse detection,
   review-mode isolation. Use when: implementing auth guards, adding new API endpoints,

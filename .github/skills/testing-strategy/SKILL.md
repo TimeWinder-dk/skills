@@ -1,5 +1,7 @@
 ---
 name: testing-strategy
+version: 1.0.0
+releaseDate: 2026-07-03
 description: |
   Practical testing strategy patterns for fast feedback and reliable releases.
   Use when: adding features, refactoring services, changing API contracts, or stabilizing flaky test suites.

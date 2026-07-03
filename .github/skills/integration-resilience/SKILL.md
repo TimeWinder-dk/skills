@@ -1,5 +1,7 @@
 ---
 name: integration-resilience
+version: 1.0.0
+releaseDate: 2026-07-03
 description: |
   Resilience patterns for external service integrations across backend services and workers.
   Use when: adding or changing HTTP/API integrations, background jobs, notifications, or sync flows.
