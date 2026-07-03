@@ -46,8 +46,9 @@
         .intro { background: var(--tw-surface, #ffffff); padding: 2rem; border-radius: 8px; margin-bottom: 2rem; border: 1px solid var(--tw-border, #e3e3e3); box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
         .intro h2 { margin: 1rem 0 0.5rem; color: var(--tw-accent, #0b5394); }
         .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
-        .skill-card { background: var(--tw-surface, #ffffff); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--tw-primary, #FF6601); border-top: 1px solid var(--tw-border, #e3e3e3); border-right: 1px solid var(--tw-border, #e3e3e3); border-bottom: 1px solid var(--tw-border, #e3e3e3); box-shadow: 0 2px 4px rgba(0,0,0,0.08); transition: transform 0.2s; }
+        .skill-card { display: block; text-decoration: none; background: var(--tw-surface, #ffffff); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--tw-primary, #FF6601); border-top: 1px solid var(--tw-border, #e3e3e3); border-right: 1px solid var(--tw-border, #e3e3e3); border-bottom: 1px solid var(--tw-border, #e3e3e3); box-shadow: 0 2px 4px rgba(0,0,0,0.08); transition: transform 0.2s; }
         .skill-card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .skill-card:focus-visible { outline: 2px solid var(--tw-accent, #0b5394); outline-offset: 2px; }
         .skill-card h3 { color: var(--tw-accent, #0b5394); margin-bottom: 0.5rem; }
         .skill-card p { font-size: 0.95rem; color: var(--tw-text-muted, #666666); }
         .btn-group { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; }
@@ -74,38 +75,38 @@
 
         <h2 style="margin-top: 2rem; color: var(--tw-text, #222222);">Skills</h2>
         <div class="skills-grid">
-            <div class="skill-card">
+            <a class="skill-card" href="https://github.com/TimeWinder-dk/skills/blob/main/.github/skills/code-architecture/SKILL.md" target="_blank" rel="noopener noreferrer">
                 <h3>📐 Code Architecture</h3>
                 <p>Backend 4-layer pattern (handler → domain → repository → persistence). Multi-provider DataContext for SQL/SharePoint/memory.</p>
-            </div>
-            <div class="skill-card">
+            </a>
+            <a class="skill-card" href="https://github.com/TimeWinder-dk/skills/blob/main/.github/skills/security-hardening/SKILL.md" target="_blank" rel="noopener noreferrer">
                 <h3>🔒 Security Hardening</h3>
                 <p>Auth chain, role-based authorization, input validation, review-mode isolation, CORS, rate limiting, audit trails.</p>
-            </div>
-            <div class="skill-card">
+            </a>
+            <a class="skill-card" href="https://github.com/TimeWinder-dk/skills/blob/main/.github/skills/frontend-design/SKILL.md" target="_blank" rel="noopener noreferrer">
                 <h3>⚛️ Frontend Design</h3>
                 <p>SPFx webparts, React hooks, Fluent UI, AAD authentication, caching service layer, session storage utilities.</p>
-            </div>
-            <div class="skill-card">
+            </a>
+            <a class="skill-card" href="https://github.com/TimeWinder-dk/skills/blob/main/.github/skills/admin-ui-design/SKILL.md" target="_blank" rel="noopener noreferrer">
                 <h3>👨‍💼 Admin UI Design</h3>
                 <p>Admin dashboards, feature toggles, destructive operation guards, confirmation dialogs, audit log viewers.</p>
-            </div>
-            <div class="skill-card">
+            </a>
+            <a class="skill-card" href="https://github.com/TimeWinder-dk/skills/blob/main/.github/skills/integration-resilience/SKILL.md" target="_blank" rel="noopener noreferrer">
                 <h3>🔗 Integration Resilience</h3>
                 <p>Timeouts, retries with jitter, idempotency, circuit breakers, fallback handling, observable failures.</p>
-            </div>
-            <div class="skill-card">
+            </a>
+            <a class="skill-card" href="https://github.com/TimeWinder-dk/skills/blob/main/.github/skills/observability-ops/SKILL.md" target="_blank" rel="noopener noreferrer">
                 <h3>📊 Observability & Ops</h3>
                 <p>Structured logging, metrics, distributed tracing, SLOs, alerts, runbooks, release gates.</p>
-            </div>
-            <div class="skill-card">
+            </a>
+            <a class="skill-card" href="https://github.com/TimeWinder-dk/skills/blob/main/.github/skills/testing-strategy/SKILL.md" target="_blank" rel="noopener noreferrer">
                 <h3>✅ Testing Strategy</h3>
                 <p>Test pyramid, fixtures, mocking rules, contract testing, regression protection, CI quality gates.</p>
-            </div>
-            <div class="skill-card">
+            </a>
+            <a class="skill-card" href="https://github.com/TimeWinder-dk/skills/blob/main/.github/skills/extract-coding-patterns/SKILL.md" target="_blank" rel="noopener noreferrer">
                 <h3>🔍 Extract Patterns</h3>
                 <p>Workflow for extracting reusable patterns from any codebase into shareable, maintainable skills.</p>
-            </div>
+            </a>
         </div>
 
         <div class="intro" style="margin-top: 2rem;">
