@@ -1,22 +1,34 @@
 ---
 name: frontend-design
-version: 1.0.1
-releaseDate: 2026-07-03
+version: 1.0.2
+releaseDate: 2026-07-08
 description: |
-  SPFx webparts, React components, Fluent UI, service pattern with AAD auth, session storage,
-  and TypeScript+ES5 constraints. Use when: building new webparts, creating React components,
-  integrating APIs, managing component state, or working with SharePoint/Teams frontend code.
-  Covers: WebPart base class pattern, React functional components with hooks, Fluent UI design
-  system, AAD-authenticated API client, caching data service, session storage utilities,
-  responsive dialog patterns, ES5 constraints.
+  Frontend patterns for TWO stacks. FIRST-CLASS: TimeWinder Operations Hub — Vite + React 18 + Capacitor
+  PWA (Fluent UI v9 + theme tokens, shared primitives, API client facade, i18n; NOT SPFx, target ES2021).
+  LEGACY (SPFx only, CrewNet/tw-tickets): SPFx webparts, Fluent UI, service pattern with AAD auth, session
+  storage, ES5 constraints. Use when: building React components, integrating APIs, managing state, styling,
+  or (legacy) SharePoint/Teams webpart code. Pick the section matching your repo — SPFx rules are not universal.
 owner: TimeWinder IT
-lastReviewed: 2026-07-03
+lastReviewed: 2026-07-08
 ---
 
 # Frontend Design Skill
 
-Modern React + SPFx pattern with AAD authentication, Fluent UI design system, caching service layer,
-and clean component hierarchy.
+This skill covers **two** frontend stacks. Pick the section for the repo you are in — the SPFx patterns
+below are NOT universal.
+
+> ## Applicability / scope
+>
+> | Stack | Repos | What applies |
+> |---|---|---|
+> | **Vite + React 18 + Capacitor PWA** (first-class) | **TimeWinder Operations Hub** | Functional React + hooks; **Fluent UI v9** (`<FluentProvider>` at the root + `@fluentui/react-icons`) **alongside** a CSS-variable theme-token system; Vite build (`target: ES2021`). **Not** SPFx — no WebPart / property pane / AAD-client machinery, no ES5 constraint. See `TimeWinder-Operations-Hub/AI.md`. |
+> | **SPFx webpart** (legacy) | CrewNet (`src/`), tw-tickets (`src/`) | Everything below: WebPart base class, Fluent UI / Griffel, `httpClientFactory` AAD client, session-storage utils, ES5 constraints. |
+>
+> Fluent UI v9 + Griffel (`makeStyles`) are used in **both** stacks. The SPFx WebPart / AAD-client /
+> session-storage machinery and the ES5 forbidden-pattern list apply to the **legacy SPFx repos only**.
+
+Below this scope note is the **legacy SPFx** guidance: modern React + SPFx pattern with AAD authentication,
+Fluent UI design system, caching service layer, and clean component hierarchy.
 
 ## DO NOT USE FOR
 
