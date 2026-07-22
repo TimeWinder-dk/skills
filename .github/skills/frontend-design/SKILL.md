@@ -1,7 +1,7 @@
 ---
 name: frontend-design
-version: 1.1.0
-releaseDate: 2026-07-22
+version: 1.2.0
+releaseDate: 2026-07-23
 description: |
   Frontend patterns for TWO stacks. FIRST-CLASS: TimeWinder Operations Hub — Vite + React 18 + Capacitor
   PWA (Fluent UI v9 + theme tokens, shared primitives, API client facade, i18n; NOT SPFx, target ES2021).
@@ -55,7 +55,15 @@ These rules apply to both modern React applications and legacy SPFx surfaces unl
 documents a stricter local primitive:
 
 - Reuse the product's canonical dialog, picker, link, button, and form primitives. Do not create a second
-  portal/overlay, focus model, or design-token vocabulary for the same interaction.
+  portal/overlay, focus model, or design-token vocabulary for the same interaction. Products in the same
+  family (Operations Hub, Volunio) share `@ops-hub/ui` — extend it rather than forking a parallel component;
+  admin CRUD list/detail/form/master-detail patterns must match across the family (see `admin-ui-design`).
+- Never present raw technical values as primary UI: ids/GUIDs live in a "Technical information"/support
+  section, timestamps render through localized formatters, and internal enums (status/kind/role) render as
+  localized user-facing labels. Relations to people/teams use searchable pickers whose hidden value is the id
+  — never a raw-id text field, never a "name + GUID" option label.
+- Do not invent a per-page form or list layout. Compose the shared form-shell / list-toolbar / entity-card /
+  detail primitives; shared layout that repeats across pages belongs in `@ops-hub/ui`, not duplicated locally.
 - Route-changing controls must preserve browser link behavior. Render a real anchor/link so modified-click,
   middle-click, copy-link, and open-in-new-tab work; never nest a button inside an anchor.
 - Large option sets should be searchable, locale-sorted, and context-filtered by default. Show the active

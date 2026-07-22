@@ -42,6 +42,22 @@ authoritative Volunio model.
 - Reuse pure logic, contracts, and UI primitives where useful; do not reuse another product's entity merely
   because its fields look similar.
 
+## Volunio admin-UI design boundaries
+
+General admin-UI design rules live in `admin-ui-design`/`frontend-design`; only the domain-specific ones
+belong here:
+
+- Volunio admin surfaces write to the Volunio master (`frivillig.*` schema) — never Operations Hub
+  `Volunteer`, `planning.Event`, Ops Hub `Team` or Ops Hub roles. Operations Hub may be used as the visual/
+  interaction reference (shared `@ops-hub/ui` primitives) without becoming a write-master.
+- Projected Operations Hub data shown inside Volunio (e.g. projection health/outbox) is a separate,
+  read-only view — clearly distinct from the authoritative Volunio data the page edits.
+- Team membership and team-leadership are administered team-centrically (Team → Members/Team leads) with the
+  invariant team-lead ⊆ member enforced in the UI (adding a lead ensures membership; removing a member who is
+  also a lead surfaces the cascade). The person-centric view is secondary; both write the same membership
+  service. Team roles (`team_member`/`team_owner`) are membership-derived and are not grantable in the generic
+  role surface.
+
 ## Decision test
 
 Before approving a change, answer all of these unambiguously:

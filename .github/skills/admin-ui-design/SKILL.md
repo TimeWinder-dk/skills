@@ -1,7 +1,7 @@
 ---
 name: admin-ui-design
-version: 1.2.0
-releaseDate: 2026-07-22
+version: 1.3.0
+releaseDate: 2026-07-23
 description: |
   Admin interface patterns for navigation shells, information architecture, feature gates, destructive
   operation guards, audit visibility, and permission-based UI. Use when creating or changing any admin
@@ -10,7 +10,7 @@ description: |
   menu entries, and placement of every admin page in the existing product admin shell. Also covers feature
   toggles, confirmation dialogs, audit viewers, role-based visibility, batch safeguards, and approvals.
 owner: TimeWinder IT
-lastReviewed: 2026-07-22
+lastReviewed: 2026-07-23
 ---
 
 # Admin UI Design Skill
@@ -134,6 +134,54 @@ An admin audit viewer should be:
 - explicit about actor, target, reason, time, result, and errors,
 - permission-scoped to the current product/domain.
 
+## Canonical admin CRUD page anatomy (BINDING)
+
+An entity-administration page is not a free-form layout. Every normal admin CRUD surface in a product family
+follows ONE anatomy, and a second product in the family (e.g. Volunio next to Operations Hub) must match it —
+not merely share color tokens. When another surface in the family already defines the pattern, it is the
+reference implementation; reuse its primitives rather than re-inventing per page.
+
+**Page anatomy (top to bottom):**
+
+1. **Page header** — title, a short plain-language description, and the primary action (e.g. "Create X") at
+   the top-right. No permanent create-form stacked above the list.
+2. **List toolbar** — full-width search; status/domain filters; a sort field + direction; a "show archived/
+   deactivated" toggle where relevant; a visible result count; clearly-resettable active filters. Use the
+   product's searchable single-select for option lists — never a raw id/GUID text field.
+3. **Entity list/grid** — a compact, responsive card/row grid that uses the full admin workspace width
+   (multi-column on wide desktop, single column on phones). Each card shows the primary name, secondary
+   identifiers, status/role/relation **chips**, and per-row edit + (authorized) destructive actions.
+4. **View / New / Edit** — a real detail view (header with name + status + actions, grouped read-only
+   sections, relations/counts, audit/provenance) and a shared form shell for create AND edit (same fields,
+   validation, busy state, submit/cancel). New opens from the primary action; it is NOT permanently open.
+5. **Detail placement** — the detail/edit must never be stacked as a column far below a long list. Open it in
+   the canonical modal/sheet (bottom sheet on mobile) or navigate to a dedicated detail route.
+6. **Dialogs** — every destructive/privilege-reducing action uses the canonical confirm dialog with a clear
+   consequence and the affected entity — never `window.confirm`/`window.prompt`, never a hand-rolled overlay.
+
+**Data-presentation rules:**
+
+- Raw technical ids/GUIDs are never primary content — put them in a "Technical information" section or a
+  copyable support detail. Timestamps render through localized formatting, never raw ISO.
+- Internal enum values (status, kind, role) are shown as localized user-facing labels, never the raw token.
+- Relations to people/teams/events use searchable pickers (name/email/phone for people; name/parent/active
+  for teams); the internal id is the hidden value behind the label. Model the administrator's task
+  ("Add member", "Make team lead"), not the backing table ("grant", "kind: member/lead").
+
+**Reuse + extraction:**
+
+- Do NOT repeat a local `rowStyle`/card/form-layout object per page. Layout that is shared belongs in the
+  shared UI package.
+- If the reference product's list/form/detail pattern is not yet packaged reusably, extract the pure visual +
+  interaction part into the shared UI package (`@ops-hub/ui`) so both products consume ONE implementation.
+  Do NOT copy the reference product's business logic or its domain-specific fields into the other product,
+  and do NOT move authoritative entities across the product boundary.
+- Prefer extending an existing shared primitive over adding a parallel variant.
+
+**Visual regression evidence:** a CRUD migration is not done on typecheck + unit tests alone. Capture
+screenshots (desktop ~1920×1080, laptop ~1366×768, mobile ~390×844; light + dark) and compare density,
+working width, action hierarchy and form rhythm against the reference product — clearly the same family.
+
 ## Admin UI checklist
 
 - [ ] Every admin route is inside the persistent/responsive admin shell.
@@ -151,3 +199,9 @@ An admin audit viewer should be:
 - [ ] Audit trail is visible where operationally relevant.
 - [ ] Loading, empty, unauthorized, success, and error states are implemented.
 - [ ] Navigation discoverability and responsive shell behavior are covered by tests.
+- [ ] CRUD pages follow the canonical anatomy (header+primary action, toolbar, entity grid, view/new/edit, modal/sheet detail).
+- [ ] No permanent create-form above the list; new/edit share one form shell; detail is not stacked below a long list.
+- [ ] No raw ids/enums/ISO as primary content (technical info section; localized labels + dates).
+- [ ] People/team relations use searchable pickers with business-action labels; no raw-id text field; no `window.confirm`.
+- [ ] Shared list/card/form layout is extracted to the shared UI package, not duplicated per page; no local `rowStyle` copies.
+- [ ] Product-family visual parity verified with light/dark desktop+laptop+mobile screenshots.

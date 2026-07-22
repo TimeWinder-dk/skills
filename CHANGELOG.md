@@ -20,11 +20,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **frontend-design 1.2.0** — Added cross-stack admin CRUD parity invariants: products in one family share
+  `@ops-hub/ui` (Operations Hub, Volunio) and their list/detail/form patterns must match; never present raw
+  ids/enums/ISO as primary UI (technical-info section, localized labels/formatters, searchable relation
+  pickers with the id hidden behind the label); compose the shared form-shell/list-toolbar/entity-card/detail
+  primitives instead of a per-page layout.
 - **frontend-design 1.1.0** — Added cross-stack invariants for canonical UI primitives, native link
   behavior, locale-aware controls, auth/public clients, semantic version comparisons, exhaustive UI maps,
   verified package exports, and safe generated `calc()` expressions.
+- **admin-ui-design 1.3.0** — Added the BINDING canonical admin CRUD page anatomy (header + primary action,
+  list toolbar, full-width entity grid, view/new/edit in a modal/sheet, technical-info for raw ids, localized
+  enums/dates, business-action searchable pickers, shared-layout extraction, and light/dark desktop+laptop+
+  mobile visual-parity screenshots), with matching checklist items.
 - **admin-ui-design 1.2.0** — Required bulk selection, counts, previews, and submitted targets to share the
   same visible/filter scope.
+- **frivillig-system-domain** — Added Volunio admin-UI design boundaries: Volunio admin surfaces write the
+  Volunio master (`frivillig.*`) and never Operations Hub masters; projected Ops Hub data is a separate
+  read-only view; team membership/leadership is administered team-centrically with the team-lead ⊆ member
+  invariant enforced in the UI.
 - **code-architecture 1.1.0** — Added explicit custom-repository mapping/filter rules, provider scalar
   normalization, reserved identifier handling, concrete-provider tests, and production entry-point wiring.
 - **integration-resilience 1.1.0** — Added durable cross-invocation coordination and adapter-level
