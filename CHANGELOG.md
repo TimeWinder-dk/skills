@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **frivillig-system-domain** — Added the authoritative Frivillig product boundary, identity and
   authorization separation, event/shift hierarchy, staffing invariants, standalone behavior, and
   CrewNet-to-Frivillig-to-Operations-Hub migration/projection contract.
+- **operations-hub-domain** — Added Operations Hub ownership for public reporting/incidents,
+  order/logistics flows, planning/year-wheel, local roles and administration, with a mandatory
+  cross-check against `frivillig-system-domain` for every overlapping person/team/event/shift concern.
 
 ### Changed
 

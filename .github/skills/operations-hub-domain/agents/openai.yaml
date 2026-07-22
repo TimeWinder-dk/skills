@@ -1,0 +1,4 @@
+interface:
+  display_name: "Operations Hub Domain"
+  short_description: "Domain rules for the Operations Hub product"
+  default_prompt: "Use $operations-hub-domain to check this change against Operations Hub ownership and the Frivillig domain boundary."
