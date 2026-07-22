@@ -27,18 +27,22 @@ authorization, shifts, signup, attendance, or other core flows.
 |---|---|---|
 | Volunteer identity and lifecycle | Frivillig | Optional person projection |
 | Frivillig roles and administrators | Frivillig | Projection only when needed |
-| Teams, memberships, and leadership | Frivillig | Team/membership projection |
+| Teams, memberships, and leadership | Frivillig | Team/membership/leadership projection |
 | Frivillig event | Frivillig | Explicit mapping to a distinct planning event |
 | Workplaces and volunteer opportunities | Frivillig | Read model when needed |
 | Shift plan, shift type, and shift | Frivillig | Read model/projection |
 | Applications, waitlists, and assignments | Frivillig | Read model/projection |
 | Qualifications and attendance | Frivillig | Projection when needed |
-| Shift-related communication/reporting | Frivillig | Add-on consumption when needed |
+| Shift-message intent, audience, templates, and authorization | Frivillig | Shared communication gateway performs delivery |
+| SMS/push/e-mail transport, sender registry, delivery receipts, retries, and technical delivery log | Shared communication infrastructure | Consumed by Frivillig and Operations Hub |
 | Operations Hub admin and operations roles | Operations Hub | No implicit Frivillig access |
 | Planning tasks, annual planning, incidents, orders | Operations Hub | Optional shift briefing into Frivillig |
 
 Keep distinct concepts distinct even when they describe the same real-world team or event. Bind them with
 stable external IDs or mapping tables instead of sharing a write master.
+
+Shared infrastructure may implement transport and technical delivery concerns. It must not become the
+business owner of Frivillig recipients, message intent, role authorization, or event/team scope.
 
 ## 2. Identity, lifecycle, and authorization
 
@@ -55,6 +59,9 @@ stable external IDs or mapping tables instead of sharing a write master.
 - `team_member` and `team_owner` must not have an independent write master in the general role store. When
   exposed as authorization roles, they are derived views of active membership and leadership records from
   the membership authority.
+- Volunteer-team leadership is Frivillig-owned. Operations Hub may consume a projected leadership relation
+  for its own operational authorization, filtering, phonebook, planning, reporting-point, or ordering flows,
+  but it must not grant or revoke that volunteer-team leadership relation.
 - Prevent a team owner from extending their own scope. Record grantor, time, scope, active/revoked state,
   reason, and revoker for grants and revocations.
 - Verify a new email or mobile channel before replacing the old value.
@@ -91,6 +98,9 @@ Frivillig event
 - Represent event participation through explicit event-team associations or equivalent stable references.
   Event-specific workplaces, opportunities, and plans may reference the responsible team without making the
   team event-owned.
+- Import CrewNet supervisor/team-leader relations into the Frivillig membership/leadership authority during
+  migration. After cutover, project those Frivillig-owned relations into Operations Hub; do not retain a
+  permanent CrewNet-to-Operations-Hub leadership authority path.
 - Model a master event separately from a concrete event. Master data may provide templates/defaults;
   concrete events own dates, assignments, applications, attendance, and event-specific communication.
 - A Frivillig administrator may create master events and the first concrete event. The administrator then
@@ -133,8 +143,20 @@ Frivillig event
   overwriting newer server state.
 - Require online server validation for signup/application; never confirm capacity, overlap, qualification,
   or approval solely on the client.
+- Frivillig owns the business decision to send shift/event/team messages: trigger, template semantics,
+  audience, recipient resolution, authorization, fallback policy, and business audit context.
+- Use the shared communication gateway for SMS, push, and e-mail transport. The gateway owns provider
+  integration, sender-ID registry, balance/usage retrieval, delivery receipts, retries, idempotency, rate
+  limits, Review Mode suppression, and the technical delivery log.
+- The shared gateway must not interpret Frivillig roles or independently decide who may receive a message.
+  Frivillig must authorize the actor and resolve the intended recipients before submitting a send command.
+- Each send command must identify the owning product/domain, message type, actor and effective actor,
+  recipient identifiers or an immutable resolved-recipient snapshot, sender identity, idempotency key,
+  correlation/audit ID, fallback policy, and relevant event/team/shift references.
+- Keep both a domain log explaining why the message was sent and a shared technical delivery log explaining
+  how each channel attempt was delivered. Do not treat the technical log as the domain audit trail.
 - Use push-first delivery for operational shift messages with acknowledgement-based fallback according to
-  product policy. Send OTP and security reverification directly through their required channels.
+  Frivillig product policy. Send OTP and security reverification directly through their required channels.
 - Scope operational messages to concrete shift, shift type, plan, workplace, team, or tag segment; do not
   turn this capability into an unrelated campaign platform.
 - Make impersonation explicitly authorized, time-limited, visibly bannered, and auditable with both actual
