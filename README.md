@@ -2,7 +2,7 @@
 
 **AI coding agent skills for TimeWinder IT projects** — backend architecture, frontend design, security, testing, observability, and resilience patterns.
 
-**8 skills**, owner: **TimeWinder IT**, last reviewed: **2026-07-03**
+**9 skills**, owner: **TimeWinder IT**, last reviewed: **2026-07-22**
 
 ---
 
@@ -18,6 +18,7 @@
 | **observability-ops** | Structured logging, metrics, tracing, SLOs, runbooks, release gates | Backend flows, integrations, background jobs, production rollout |
 | **testing-strategy** | Test pyramid, fixtures, mocking, contract tests, CI gates | Features, refactoring, API contracts, flaky stabilization |
 | **extract-coding-patterns** | Extract patterns from any codebase into skills | Team conventions, onboarding, standardization, playbooks |
+| **frivillig-system-domain** | Frivillig product ownership and business invariants | Identity, authorization, teams, events, shifts, staffing, migration |
 
 ---
 
@@ -40,6 +41,7 @@ Then select skills:
 ✓ observability-ops
 ✓ testing-strategy
 ✓ extract-coding-patterns
+✓ frivillig-system-domain
 ```
 
 ### Manual
@@ -74,6 +76,7 @@ Then select skills:
 │   ├── admin-ui-design/SKILL.md
 │   ├── code-architecture/SKILL.md
 │   ├── extract-coding-patterns/SKILL.md
+│   ├── frivillig-system-domain/SKILL.md
 │   ├── frontend-design/SKILL.md
 │   ├── integration-resilience/SKILL.md
 │   ├── observability-ops/SKILL.md

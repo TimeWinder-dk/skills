@@ -1,13 +1,13 @@
 ---
 name: integration-resilience
-version: 1.0.0
-releaseDate: 2026-07-03
+version: 1.1.0
+releaseDate: 2026-07-22
 description: |
   Resilience patterns for external service integrations across backend services and workers.
   Use when: adding or changing HTTP/API integrations, background jobs, notifications, or sync flows.
   Covers: timeouts, retries with jitter, idempotency, circuit-breaker behavior, fallback handling, and failure observability.
 owner: TimeWinder IT
-lastReviewed: 2026-07-03
+lastReviewed: 2026-07-22
 ---
 
 # Integration Resilience Skill
@@ -47,6 +47,11 @@ Retry only transient failures with bounded exponential backoff and jitter.
 
 Side effects must be safe under retries, replays, and at-least-once execution.
 
+Any coordination that must survive another invocation—dedup keys, cursors, throttles, leases, pause state,
+or retry progress—must use durable storage. Module/global memory is only an optimization or local fallback:
+serverless scale-to-zero, process restarts, and parallel instances make it non-authoritative. Choose storage
+that does not wake or depend on the resource the coordination is intended to protect.
+
 ---
 
 ## Layer 4: Circuit Breaker & Fallback
@@ -59,6 +64,19 @@ Protect the system from repeated upstream failure bursts.
 
 Integration health must be visible and actionable.
 
+## Layer 6: Side-effect suppression
+
+Review/sandbox mode, operator kill switches, and maintenance gates must suppress outbound effects at the
+integration choke point, not only in one caller:
+
+- Resolve request/job-level policy once at each HTTP, timer, and queue entry point and propagate it through
+  the execution context.
+- Re-check suppression synchronously in the adapter immediately before the external effect.
+- Background workers require explicit policy resolution because they do not inherit HTTP request context.
+- Define which dependencies are effects versus internal data stores; do not let an ambiguous kill switch
+  partially disable a workflow.
+- A suppressed operation must have a deterministic no-op/deferred result and appropriate audit/telemetry.
+
 ---
 
 ## Checklist
@@ -68,4 +86,7 @@ Integration health must be visible and actionable.
 - ✅ Idempotency strategy present for side effects.
 - ✅ Circuit-breaker and fallback behavior documented.
 - ✅ Metrics/logs support incident triage.
+- ✅ Cross-invocation coordination uses durable state rather than process memory.
+- ✅ Outbound effects enforce review/kill-switch policy at the adapter choke point.
+- ✅ Timers and queue workers resolve suppression policy explicitly.
 - ❌ No unbounded retries or infinite queues.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frivillig System Domain"
+  short_description: "Domain rules for the Frivillig product"
+  default_prompt: "Use $frivillig-system-domain to check this change against the Frivillig product boundaries and business rules."

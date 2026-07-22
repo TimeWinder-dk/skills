@@ -1,6 +1,6 @@
 ---
 name: admin-ui-design
-version: 1.1.0
+version: 1.2.0
 releaseDate: 2026-07-22
 description: |
   Admin interface patterns for navigation shells, information architecture, feature gates, destructive
@@ -113,6 +113,11 @@ Destructive or privilege-reducing operations must include:
 
 ## Bulk operations
 
+- Derive selection, preview, counts, and mutation targets from the same currently filtered scope the user
+  can see. “Select all” means all matching rows, not the unfiltered backing collection.
+- Keep hidden/non-matching rows out of the mutation unless the UI explicitly offers and names a broader
+  scope (for example “all 12,430 records”).
+- Reconcile selection when filters change, and state clearly whether selection persists across pages.
 - Preview the affected count before execution.
 - Cap batch sizes server-side.
 - Make retries idempotent where possible.
@@ -142,6 +147,7 @@ An admin audit viewer should be:
 - [ ] Role filtering uses server-resolved permissions and backend guards remain authoritative.
 - [ ] Destructive actions require appropriate confirmation and audit reason.
 - [ ] Bulk actions preview counts, cap batch size, and report partial failure.
+- [ ] Bulk selection, displayed count, preview, and submitted IDs use the same visible/filter scope.
 - [ ] Audit trail is visible where operationally relevant.
 - [ ] Loading, empty, unauthorized, success, and error states are implemented.
 - [ ] Navigation discoverability and responsive shell behavior are covered by tests.

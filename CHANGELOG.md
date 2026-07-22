@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **frivillig-system-domain** — Added the authoritative Frivillig product boundary, identity and
+  authorization separation, event/shift hierarchy, staffing invariants, standalone behavior, and
+  CrewNet-to-Frivillig-to-Operations-Hub migration/projection contract.
+
+### Changed
+
+- **frontend-design 1.1.0** — Added cross-stack invariants for canonical UI primitives, native link
+  behavior, locale-aware controls, auth/public clients, semantic version comparisons, exhaustive UI maps,
+  verified package exports, and safe generated `calc()` expressions.
+- **admin-ui-design 1.2.0** — Required bulk selection, counts, previews, and submitted targets to share the
+  same visible/filter scope.
+- **code-architecture 1.1.0** — Added explicit custom-repository mapping/filter rules, provider scalar
+  normalization, reserved identifier handling, concrete-provider tests, and production entry-point wiring.
+- **integration-resilience 1.1.0** — Added durable cross-invocation coordination and adapter-level
+  review/kill-switch suppression for HTTP, timer, and queue entry points.
+
 ## [1.0.0] — 2026-07-03
 
 ### Initial Release
@@ -91,4 +109,4 @@ If you're using these skills:
 
 ---
 
-**Last Updated**: 2026-07-03
+**Last Updated**: 2026-07-22
