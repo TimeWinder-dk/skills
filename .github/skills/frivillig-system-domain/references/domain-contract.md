@@ -42,12 +42,19 @@ stable external IDs or mapping tables instead of sharing a write master.
 
 ## 2. Identity, lifecycle, and authorization
 
-- Create the permanent identity only after both normalized email and normalized mobile have been verified
-  with separate OTP challenges. Do not grant active access to a partially verified registration.
+- For native self-registration, create the permanent identity only after both normalized email and normalized
+  mobile have been verified with separate OTP challenges. Do not grant native active access to a partially
+  verified registration.
+- Migration or administrative provisioning may create an identity with explicit provenance and verification
+  state. Such an identity must not receive native active access until the channels required by the applicable
+  access policy have been verified.
 - Resolve native Frivillig sessions from the Frivillig identity and Frivillig-owned role/membership stores.
   Do not require an Operations Hub person projection, Entra identity, or planning role.
 - Keep role namespaces separate. Frivillig roles include global administrator/volunteer roles and scoped
   event/planner access; team membership and leadership come from the membership authority.
+- `team_member` and `team_owner` must not have an independent write master in the general role store. When
+  exposed as authorization roles, they are derived views of active membership and leadership records from
+  the membership authority.
 - Prevent a team owner from extending their own scope. Record grantor, time, scope, active/revoked state,
   reason, and revoker for grants and revocations.
 - Verify a new email or mobile channel before replacing the old value.
@@ -61,14 +68,17 @@ stable external IDs or mapping tables instead of sharing a write master.
 
 ## 3. Organization, events, and shift structure
 
-Use this hierarchy:
+Use this relationship model:
 
 ```text
+Organization
+└── team tree
+
 Frivillig event
-├── team
-│   ├── workplace
-│   └── volunteer opportunity
-└── shift plan
+├── event-team association
+├── workplace -> responsible team
+├── volunteer opportunity -> event/team/workplace
+└── shift plan -> event/team
     ├── shift type
     └── concrete shift
         ├── application/waitlist
@@ -76,8 +86,18 @@ Frivillig event
         └── attendance
 ```
 
+- A team is an organization-level entity and may participate in multiple events. Do not create a new copy of
+  the team for each event.
+- Represent event participation through explicit event-team associations or equivalent stable references.
+  Event-specific workplaces, opportunities, and plans may reference the responsible team without making the
+  team event-owned.
 - Model a master event separately from a concrete event. Master data may provide templates/defaults;
   concrete events own dates, assignments, applications, attendance, and event-specific communication.
+- A Frivillig administrator may create master events and the first concrete event. The administrator then
+  grants scoped `event_owner` access.
+- An `event_owner` may update events within their existing scope and may instantiate a concrete event from a
+  master event when they hold the required scope on that master. Event creation must not require a scope for
+  an event that does not yet exist.
 - Make event timezone an IANA zone. Store instants in UTC and use the event zone for wall-clock meaning;
   test daylight-saving gaps, duplicates, midnight crossings, and user display preferences.
 - Treat a volunteer opportunity as onboarding/discovery, not as a shift type.
