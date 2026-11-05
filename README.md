@@ -2,7 +2,7 @@
 
 **AI coding agent skills for TimeWinder IT projects** — backend architecture, frontend design, security, testing, observability, and resilience patterns.
 
-**11 skills**, owner: **TimeWinder IT**, last reviewed: **2026-07-31**
+**16 skills**, owner: **TimeWinder IT**, last reviewed: **2026-10-25**
 
 ---
 
@@ -21,6 +21,11 @@
 | **multi-agent-collaboration** | Concurrent AI agents in one repo without losing work: backlog structure, claims, ID allocation, worktree discipline | New multi-agent repos, backlog design, after agent-collision incidents |
 | **frivillig-system-domain** | Frivillig product ownership and business invariants | Identity, authorization, teams, events, shifts, staffing, migration |
 | **operations-hub-domain** | Operations Hub ownership and business invariants | Incidents, orders, planning, roles, and Frivillig projections |
+| **billetto-platform** | Billetto ticket platform as TimeWinder uses it: model, money, hard limits, API/webhooks, account snapshot | Anything mentioning Billetto, billetter, ticket types, packages, Basket, scanning, Adyen; read before the four skills below |
+| **billetto-web-sales** | timewinder.dk (WordPress) as the sales channel: buy-button/Smart Link pattern, widgets, sales-page blueprint, tracking, consent | Website ticket sales, salgsside, widgets, campaigns/drops on the site, live counters |
+| **billetto-tw-tickets** | Replace Place2Book with Billetto in tw-tickets (SPFx webparts + TwTicketsProxy) without breaking the TicketsArrivals contract | TwTicketsProxy, syncArrivals, billetskanning/billetstatus, TicketPrices |
+| **billetto-ops-hub** | Operations Hub consumption: scan adapter paths, wristband accounting with real ticket types, pre-day orders, public counter, deposit list, webhook wiring | ticketArrivalsStore, deliveryOverview scans, refillEngine, armbånd, forsalg, depositum |
+| **billetto-own-ticket-app** | Decision guide + architecture for an own gate/scanner app on Billetto (no external check-in → own scan ledger) | Egen billetapp, scanner-app, Zebra TC57/DataWedge, offline scanning, re-entry |
 
 ---
 
@@ -45,6 +50,11 @@ Then select skills:
 ✓ extract-coding-patterns
 ✓ frivillig-system-domain
 ✓ operations-hub-domain
+✓ billetto-platform
+✓ billetto-web-sales
+✓ billetto-tw-tickets
+✓ billetto-ops-hub
+✓ billetto-own-ticket-app
 ```
 
 ### Manual
@@ -77,6 +87,11 @@ Then select skills:
 .github/
 ├── skills/
 │   ├── admin-ui-design/SKILL.md
+│   ├── billetto-platform/SKILL.md (+ references/api-reference.md, timewinder-account.md)
+│   ├── billetto-web-sales/SKILL.md (+ references/widget-embed.md, sales-page-blueprint.md)
+│   ├── billetto-tw-tickets/SKILL.md (+ references/billetto-service-contract.md)
+│   ├── billetto-ops-hub/SKILL.md (+ references/adapter-and-webhook.md)
+│   ├── billetto-own-ticket-app/SKILL.md (+ references/scan-ledger-design.md)
 │   ├── code-architecture/SKILL.md
 │   ├── extract-coding-patterns/SKILL.md
 │   ├── frivillig-system-domain/SKILL.md

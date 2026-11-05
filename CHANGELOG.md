@@ -11,6 +11,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **billetto-platform 1.0.0** — Shared Billetto knowledge for TimeWinder's 2027 vendor switch: event → ticket
+  type → package/group model, Basket, campaigns/codes, scanning (Access Control, Multi Scanner, terminal
+  restrictions, exit codes), money/plan facts, the hard limits (no external check-in, whole-ticket refunds,
+  one PDF per order), organiser API v3 + webhook signature reference, and a dated snapshot of TimeWinder's
+  account (events, decisions, open items, contacts).
+- **billetto-web-sales 1.0.0** — timewinder.dk (WordPress/Inspiro) as the sales channel: buy-button → Smart
+  Link → event page as default (Basket), widget rules, sales-page blueprint, measurement (Smart Links, UTM,
+  GA4), conversion levers (drops, early bird, codes, waiting list, chat widget), consent/headers hygiene.
+- **billetto-tw-tickets 1.0.0** — Vendor swap inside tw-tickets behind the unchanged `TicketsArrivals`
+  contract: `BillettoService` mapping (entrance scans only, admission states, ticket type names), vendor
+  switch setting, optional HMAC-verified webhook route, `/diag` additions, dual-vendor period rules.
+- **billetto-ops-hub 1.0.0** — Operations Hub consumption paths (read tw-tickets table by default, direct
+  adapter or webhook when justified), wristband rules on real ticket types (family multiplier retired for
+  scans), pre-day ordering signal, cached public counter, deposit refund list, route-guard/registry/Key Vault
+  wiring and test fixtures.
+- **billetto-own-ticket-app 1.0.0** — Decision table and architecture for an own gate app: Billetto cannot
+  receive external check-ins, so the app owns a scan ledger; projection minimisation, local validation,
+  offline conflicts, terminal identity = Ops Hub entrance, reconciliation and rehearsal plan.
+
 - **frivillig-system-domain** — Added the authoritative Frivillig product boundary, identity and
   authorization separation, event/shift hierarchy, staffing invariants, standalone behavior, and
   CrewNet-to-Frivillig-to-Operations-Hub migration/projection contract.
