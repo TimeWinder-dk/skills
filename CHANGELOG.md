@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **billetto-platform / billetto-ops-hub (2026-11-05 sync)** — Synced with the Operations Hub overlays:
+  own barcodes + CSV import as the supported way to issue exhibitor tickets (verified end to end, incl. the
+  import UI's mapping pitfalls), terminal restriction requirement for scanning, Billetto's final answer that
+  `tickets/generate` cannot be opened for organiser key pairs, account update 2026-11-05, and the key *pair*
+  (`BILLETTO-API-KEY-ID` / `-SECRET`) instead of a single `BILLETTO_API_KEY`. Overview of everything:
+  Operations Hub `docs/billetto/README.md`.
 - **billetto-platform 1.0.0** — Shared Billetto knowledge for TimeWinder's 2027 vendor switch: event → ticket
   type → package/group model, Basket, campaigns/codes, scanning (Access Control, Multi Scanner, terminal
   restrictions, exit codes), money/plan facts, the hard limits (no external check-in, whole-ticket refunds,

@@ -24,9 +24,11 @@ interface ScanSource { fetchScans(params: { from: string; to: string }): Promise
 
 Implementation sketch:
 
-- Config block `billetto?: { apiBase; apiKey; apiVersion; eventIds: string[]; webhookSecret? }` populated
-  from `BILLETTO_API_BASE`, `BILLETTO_API_KEY` (Key Vault ref), `BILLETTO_API_VERSION` (default
-  `2026-02-10`), `BILLETTO_EVENT_IDS`.
+- Config block `billetto?: { apiBase; apiKeyId; apiKeySecret; apiVersion; eventIds: string[]; webhookSecret? }`
+  populated from `BILLETTO_API_BASE`, `BILLETTO_API_KEY_ID` + `BILLETTO_API_KEY_SECRET` (Key Vault refs — a
+  key *pair*, sent as `Api-Keypair: <id>:<secret>`; there is no single `BILLETTO_API_KEY`),
+  `BILLETTO_API_VERSION` (default `2026-02-10`), `BILLETTO_EVENT_IDS`. As built in T-21-02
+  (`backend/src/config.ts`, `billettoArrivalsStore.ts`).
 - For each configured event: page `GET /organiser/events/{id}/attendees?limit=100&expand=data.ticket_type`
   with `updated_after` = `from` minus one day (scans can be late), follow `after` cursors, collect
   `scannings.data[]` (a list object, verified live) where `mode === 'entrance'` and `scanned_at` within
@@ -61,7 +63,7 @@ tw-tickets owns.
 
 | Setting | Secret? | Where |
 |---|---|---|
-| `BILLETTO_API_KEY` | yes | Key Vault `BILLETTO-API-KEY`, referenced from `main.bicep`/`main.bicepparam` |
+| `BILLETTO_API_KEY_ID`, `BILLETTO_API_KEY_SECRET` | yes | Key Vault `BILLETTO-API-KEY-ID` / `BILLETTO-API-KEY-SECRET` (exist in `tw-opshub-kv`), referenced from `main.bicep` |
 | `BILLETTO_WEBHOOK_SECRET` | yes | Key Vault `BILLETTO-WEBHOOK-SECRET` |
 | `BILLETTO_API_BASE`, `BILLETTO_API_VERSION`, `BILLETTO_EVENT_IDS` | no | `infra/appsettings.nonsecret.json` + bicep |
 

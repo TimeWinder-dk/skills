@@ -97,7 +97,8 @@ each line.
 - [ ] Terminal names mapped to entrances; unmapped remain visible.
 - [ ] Any new route is in `api-docs/registry.ts` and `routeGuard.ts` allowlist with the right `kind`;
       webhook routes verify `Billetto-Signature` with constant-time compare and are idempotent.
-- [ ] Secrets only via Key Vault references (`BILLETTO-API-KEY`, `BILLETTO-WEBHOOK-SECRET`); never in
+- [ ] Secrets only via Key Vault references (`BILLETTO-API-KEY-ID` + `BILLETTO-API-KEY-SECRET`,
+      `BILLETTO-WEBHOOK-SECRET`); never in
       `appsettings.nonsecret.json`.
 - [ ] Ops Hub still persists no sales rows; caches are per-instance and short.
 - [ ] Tests: fixtures with real-shaped attendee JSON (entrance + exit scans, cancelled attendee, package

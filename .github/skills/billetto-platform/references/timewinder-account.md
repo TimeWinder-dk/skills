@@ -139,3 +139,75 @@ timewinder.dk runs WordPress 7.1 (theme Inspiro, Kadence/Essential/VK blocks, AI
 Cache, All-In-One Security) at webtohosting.dk. A test page `/test-billet-test/` links to the Nostalgi
 Camping event. Public pages show the 2027 dates but no prices or buy links yet. The Eventin plugin is
 installed with demo content and should be cleaned up or removed once Billetto is the sales channel.
+
+## Update 2026-11-05 (from tha@timewinder.dk mail + SharePoint, read via Microsoft 365)
+
+**Billetto's written answers (Mikkel Sørensen, 2026-10-27 and 2026-11-05):**
+
+- `/api/organizer/events/{id}/tickets/generate` is an **internal dashboard function** (active dashboard
+  session or a Billetto-issued OAuth token only). No key-pair type gives access; a public equivalent would
+  be a new product feature with no timeline. Supported ways to issue tickets: "Generér billetter" in the
+  dashboard and **CSV import of tickets**.
+- **CSV ticket import is enabled on TimeWinder's organiser account** (support, 2026-11-05; Mikkel "åbnet op"
+  2026-11-04). Verified by Thomas: the approval flow now creates ticket data, the CSV is imported in
+  Billetto, and the imported barcodes scan correctly. The import itself stays a manual step in Billetto.
+  Validation rules for external id and barcode in the CSV are still unanswered; so is how transferred or
+  refunded tickets (barcode may change) are handled.
+- **Own ticket design is allowed** (confirmed): TimeWinder may send its own ticket with its own barcode/QR.
+- **Webhook creation with the key pair is fixed in production** (the 500 from 2026-10-25) — retest.
+- Still open with Billetto: parent-package relation in API/webhooks; the **504 on
+  `/api/organizer/target_groups/search` in the campaign editor** (blocks the campaign for exhibitors/stalls
+  that pay after approval); AI chat-agent questions (model, data processing, statistics, export).
+- Multi Scanner: **do not recreate events or move dates**; keep real start/end dates. Product team is
+  deciding whether the 36 h window can change or events can be grouped another way. Repeated scans of the
+  same ticket are stored as separate rows in the scan export (time, terminal, change type, barcode), but the
+  export lacks the ticket type and "Total in venue" is unclear — tech case still open before "one shared
+  ticket for anonymous exhibitors" can be the final design.
+- Scanner hardware in the tech case: Zebra TC57 (Android 10) and TC58 (Android 16), Access Control 1.0.1;
+  DataWedge and the universal exit code are being followed up. Scanning/POS to be tested with Bengta.
+
+**Events seen in mail (not in the API table above):**
+
+| Event | Id | Notes |
+|---|---|---|
+| Stumpemarked på TimeWinder 2027 | 2041198 | created by Carsten 2026-10-28 together with Markedsboder 2035343; both sent to Karen Veith / Hanne Christiansen for review |
+
+**Ticket types and prices 2027** (owner document "Priser billetter og regler 2027.docx", Carsten 2026-10-22;
+red = not validated): friday adult 100 / child 50 online (130/80 at the door), family friday 250; weekend
+adult 200 (230 door), evening from 17:00 100 door only, partout fri–sun 350; child 100/130, evening 70,
+partout 150; family one-day 500 (530 door). Door sales +20 kr/day. Camping with caravan 800, tent 400,
+glamping 1 600 (2 persons), nostalgicamping 800/400, Thursday 16:00 to Monday 12:00. Market stalls:
+standard pitch 6×4 m no tent 1 800, 36 m² with tent 5 500, with tent+floor 6 600, single day 1 000, tables
+200 each (all incl. 2 partout or 2 one-day tickets). Stumpe-/loppemarked: partout pitch 900, one-day 650,
+power 200. Exhibitor ticket 300 with 100 % discount for one person per exhibited object; Dutch trucks 890.
+Clubs: car clubs partout 300, 100 % max 5 per purchase; Ældre Sagen 10 %; F5 Saturday 160/80; Ford Classic
+Car Club 10 %; Swedish groups and Politihistorisk Forening ≈ 33 % on one-day via special link / invoice;
+Hundested Bio 20 %; Classic Car House 10 % code CCH2025. Rules: free entry when bringing a period vehicle
+("Solskins udstillere" — access only on the day the object is brought, Sat or Sun); handicap companion
+accepted; pilots + guest get board and lodging.
+
+**Early Bird 2027 (owner, 2026-10-22):** 20 Nov – 24 Dec 23:59, max 250 total, "spar momsen" (20 %), on
+one-day tickets and the family ticket. Committee wants the website sales pages live by 20 Nov.
+
+**Setup runbook (`Billetto billet oprettelse.docx`, SharePoint, updated 2026-10-29)** also documents: the
+sekretariat shared login (do not copy), widget colours #056FDA/#FFFFFF, unique codes (Promover → Audiences →
+Manuel målgruppe → Generer koder, antal pr. kode = 1 → campaign type Målgruppe, 100 %), family package
+creation (items "separat billet sendes = JA", wrong item count ⇒ start over), booking questions (Design &
+tilpasninger → Deltager information; per ticket type; ask once per order vs per ticket), vouchers/add-ons
+(Rediger → Billetter → Vouchers, "Brug voucher automatisk på"), deposit as separate ticket type, and the
+planned **"Solskins udstillere" event** for free day-of exhibitors: own event, scanner settings "Tillad flere
+scanninger af den samme billet" + "Automatisk scan ud når der detekteres en ny scan-in", report via
+Skanningsstatistik → XLS export. Open questions listed there: hide a specific event id in the widget;
+restrict a ticket to one day in the scanner; "kun billetsælger" ticket; replacement for the 0 kr queue
+ticket.
+
+**Exhibitor registrations (SharePoint site `UdstillerData-TW-Team`):** Power Automate form → list
+"Register as an exhibitor at TimeWinder" (display name "Exhibitor at TimeWinder"); mails go to the team
+mailbox UdstillerData-TW-Team@timewinder.dk; photo uploads in the site's `PictureUploads` folder; the 2024
+export has **no registration-plate column** (plates only appear in free text and mails). See
+`sharepoint-billetto-lookup/references/plate-sources.md`.
+
+**Market stall approval flows (Power Automate, tested 2026-11-04):** "Vi har modtaget din bestilling af din
+Markedsbod" (marked@timewinder.dk) → approval → "Du kan nu bestille din Markedsbillet" with a payment link;
+stumpemarked variant from boder@timewinder.dk ("Kræmmer teamet"). On 2026-11-04 the payment link still
+pointed at **Place2Book**; switching it to the Billetto stall event is blocked by the campaign 504 above.

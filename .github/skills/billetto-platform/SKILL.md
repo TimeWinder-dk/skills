@@ -12,7 +12,7 @@ description: |
   TimeWinder ticket account — even if the user only says "billetsystemet". Always read it before the more
   specific skills billetto-web-sales, billetto-tw-tickets, billetto-ops-hub and billetto-own-ticket-app.
 owner: TimeWinder IT
-lastReviewed: 2026-10-25
+lastReviewed: 2026-11-05
 ---
 
 # Billetto Platform
@@ -101,7 +101,8 @@ per year above 1 000 kr (TimeWinder asked for a lower percentage on those).
    the festival. Adyen may already have paid the money out, so agree a hold-back first.
 3. **One PDF per order.** No setting sends one file per ticket; organisers can download single tickets, and
    buyers can transfer single tickets through Billetto Wallet (barcode re-issued). TimeWinder keeps its own
-   PDF splitter for now.
+   PDF splitter for now. For tickets TimeWinder issues itself (exhibitor free tickets) an **own ticket design
+   with the barcode as QR is allowed** (Billetto, 2026-11-05) — see limit 10.
 4. **Basket is online-only and public-only.** Door sales (billetkontor/POS) sell one event at a time.
 5. **Multi Scanner shows only events starting within 36 hours**, so cross-event scanning cannot be
    rehearsed months ahead; use two test events inside the window.
@@ -116,9 +117,18 @@ per year above 1 000 kr (TimeWinder asked for a lower percentage on those).
    Basket, the public endpoint and marketplace exposure need `public: true`; flip it deliberately before
    launch, not during.
 10. **The API cannot create orders or tickets.** Its only writes are target-group members (unique codes),
-    target-group imports and webhooks (the latter failing with key-pair auth; use the GUI). "Generer
-    billetter" is dashboard-only, 20 per batch. Automated sponsor/exhibitor ticketing therefore means
-    "issue a code, let the person redeem it, watch the order/webhook", not "send the ticket".
+    target-group imports and webhooks (key-pair webhook creation fixed by Billetto 2026-11-03). "Generer
+    billetter" is dashboard-only, 20 per batch. The dashboard's internal
+    `POST /api/organizer/events/{id}/tickets/generate` needs a dashboard session or Billetto-issued OAuth token
+    — 401 with the key pair, and Billetto confirmed in writing (2026-11-05) that no setting or key type opens
+    it; a public equivalent would be a new, unscheduled product feature. Two supported ways to hand out
+    tickets automatically:
+    - **Own barcodes + CSV import** (enabled on the account 2026-11-05): TimeWinder generates the barcode and
+      its own PDF/QR, then imports the barcodes into Billetto, where they scan normally (verified end to end
+      2026-11-04 incl. lowercase-prefixed barcodes such as `vtb11223344557`). The import is manual in the
+      dashboard; the ticket is not valid at the gate until imported. Used for exhibitor free tickets —
+      see `power-automate-specieltickets` and `docs/billetto/README.md`.
+    - **A unique code** the person redeems themselves (target group + campaign), e.g. paid market stalls.
 
 ## Where things live in the organiser UI *(point in time)*
 
@@ -129,7 +139,9 @@ per year above 1 000 kr (TimeWinder asked for a lower percentage on those).
 | Ticket PDF banner (480 × 730 px PNG/JPG) and order-mail text | Design & tilpasninger → Billetter og ordrer |
 | Smart Links & QR, access codes, Easy Discounts, campaigns | Rabatter & kampagner |
 | Single-event / account widget code | Marketing → Widget (event) and Sell → Widget (account) |
-| Terminal restrictions | Event → Skannerindstillinger → Begrænsninger på terminal |
+| Terminal restrictions | Event → Skannerindstillinger → Begrænsninger på terminal — a new ticket type must be added to every gate terminal, otherwise "Terminalen X er ikke autoriseret til at scanne billettypen …" |
+| CSV import of own tickets | Event → Deltagere → Billethåndtering → Upload billetter (`…/organizer/tickets/import`): one product type per file; map **every** column in its dropdown (no auto-mapping; the dropdown shows blank after selection — Billetto bug); the red text is the first *unmapped* field (external id → e-mail → barcode → name), not a data error |
+| Hide a ticket type behind a code | Ticket type → Advanced settings → hidden; only then does the campaign effect "Lås billettyper op" appear (also with a target-group condition) |
 | Organiser key for scanning staff | Profile → Event Manager |
 | Private test events | Event information → Privat (publish as normal; only you and Billetto see it) |
 
