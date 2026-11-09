@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **economic-api 1.0.0 (2026-11-09)** — Visma e-conomic REST API (`restapi.e-conomic.com`) for TimeWinder:
+  two-token model (app secret + agreement grant) and how an agreement admin grants the app "Timewinderudtræk",
+  Key Vault secret names, resource model (customers, products, draft → booked invoices, master data), pagination/
+  filter/sort/idempotency/error conventions verified against the schemas and the demo agreement, app roles, the
+  hard limits (no versioning, GET-only demo, booked = immutable, no published rate limit), payment verification on
+  `remainder == 0` of the invoice matched by `references.other`, Operations Hub wiring pattern, and a time-boxed
+  spike plan that must run before any build task (owner decision).
+
 - **billetto-platform / billetto-ops-hub (2026-11-05 sync)** — Synced with the Operations Hub overlays:
   own barcodes + CSV import as the supported way to issue exhibitor tickets (verified end to end, incl. the
   import UI's mapping pitfalls), terminal restriction requirement for scanning, Billetto's final answer that

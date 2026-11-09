@@ -2,7 +2,7 @@
 
 **AI coding agent skills for TimeWinder IT projects** — backend architecture, frontend design, security, testing, observability, and resilience patterns.
 
-**16 skills**, owner: **TimeWinder IT**, last reviewed: **2026-10-25**
+**17 skills**, owner: **TimeWinder IT**, last reviewed: **2026-11-09**
 
 ---
 
@@ -26,6 +26,7 @@
 | **billetto-tw-tickets** | Replace Place2Book with Billetto in tw-tickets (SPFx webparts + TwTicketsProxy) without breaking the TicketsArrivals contract | TwTicketsProxy, syncArrivals, billetskanning/billetstatus, TicketPrices |
 | **billetto-ops-hub** | Operations Hub consumption: scan adapter paths, wristband accounting with real ticket types, pre-day orders, public counter, deposit list, webhook wiring | ticketArrivalsStore, deliveryOverview scans, refillEngine, armbånd, forsalg, depositum |
 | **billetto-own-ticket-app** | Decision guide + architecture for an own gate/scanner app on Billetto (no external check-in → own scan ledger) | Egen billetapp, scanner-app, Zebra TC57/DataWedge, offline scanning, re-entry |
+| **economic-api** | Visma e-conomic REST API as TimeWinder uses it: two-token auth and grant flow, Key Vault names, customers/products/draft→booked invoices, filtering/pagination/idempotency, roles, payment verification (`remainder`), spike plan | e-conomic, bogføring/regnskab via API, fakturakladde, betalingsafstemning, fakturering af personaleforeninger |
 
 ---
 
@@ -93,6 +94,7 @@ Then select skills:
 │   ├── billetto-ops-hub/SKILL.md (+ references/adapter-and-webhook.md)
 │   ├── billetto-own-ticket-app/SKILL.md (+ references/scan-ledger-design.md)
 │   ├── code-architecture/SKILL.md
+│   ├── economic-api/SKILL.md (+ references/rest-api-reference.md, timewinder-agreement.md)
 │   ├── extract-coding-patterns/SKILL.md
 │   ├── frivillig-system-domain/SKILL.md
 │   ├── frontend-design/SKILL.md
