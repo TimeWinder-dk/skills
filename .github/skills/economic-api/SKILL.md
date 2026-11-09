@@ -127,6 +127,12 @@ books*. Lose the grant token and you re-run the installation URL — nothing els
 
 Follow `backend/src/services/sponsorTickets/sponsorFlowClient.ts` as the template for the choke point:
 
+- **One app, role SuperUser (owner 2026-11-09):** *Timewinderudtræk* serves both ticket invoicing and the later
+  reporting extracts, because extracts need accounts/entries that only SuperUser reaches. The broad role is
+  compensated in code: the client takes an **endpoint allowlist** per caller (ticket flow: `/self`, `/customers*`,
+  `/products*`, `/invoices/drafts*`, `/invoices/booked*`, `/invoices/paid*`, master data; extract module: GET-only
+  on `/accounts*`, `/accounting-years*`, `/budgets*`), and **only** the ticket module may use POST/PUT/DELETE — a
+  request outside the allowlist throws before any network call, and a unit test pins the lists.
 - **Config:** app settings `ECONOMIC_APP_SECRET_TOKEN` and `ECONOMIC_AGREEMENT_GRANT_TOKEN` as **Key Vault
   references** (`infra/main.bicep`) to secrets `ECONOMIC-APP-SECRET-TOKEN` / `ECONOMIC-AGREEMENT-GRANT-TOKEN`
   in `tw-opshub-kv`; `ECONOMIC_BASE_URL` default `https://restapi.e-conomic.com`. Unset ⇒ the feature reports
@@ -183,11 +189,29 @@ Follow `backend/src/services/sponsorTickets/sponsorFlowClient.ts` as the templat
    plus the number, instead of the long manual-data mail. Booking and sending stay with the bookkeeper.
 5. TEST orders never create drafts (or create them on a trial agreement only).
 
+## Recipe: reporting extract (later task)
+
+Goal (owner 2026-11-09): show the chart of accounts with income and expenses per account and period. Read-only by
+discipline — the SuperUser role allows writes, so the extract module must contain no POST/PUT/DELETE at all and uses
+the GET-only allowlist above.
+
+1. `GET /accounting-years` → pick the year; `GET /accounts?pagesize=1000` → chart of accounts (`accountNumber`,
+   `name`, `accountType`, `balance`, `vatAccount`, `totalFromAccount`/`accountsSummed` for sum lines).
+2. Totals per period: `GET /accounting-years/{year}/periods` and `GET /accounting-years/{year}/periods/{n}/totals`
+   (per-account totals); whole year: `GET /accounting-years/{year}/totals`.
+3. Entries when detail is needed: `GET /accounting-years/{year}/entries?filter=date$gte:…$and:date$lte:…&pagesize=1000`
+   or per account `GET /accounts/{n}/accounting-years/{year}/entries`; page with `skippages`, stop at `lastPage`.
+4. Cache snapshots (Blob) and refresh on a timer in office hours — never on every dashboard view; the API has no
+   published rate limit, so be the polite client.
+5. Verify the exact property names against `GET /schema/accounts.get.schema.json` etc. on the live agreement before
+   building; §4 of the reference lists the endpoints as stable on `GET /`.
+
 ## Validation checklist
 
 - [ ] Both tokens come from Key Vault references; nothing token-like in code, logs, audit, or client responses.
 - [ ] The grant token was obtained by an agreement administrator via the InstallationURL and stored as
-      `ECONOMIC-AGREEMENT-GRANT-TOKEN`; the app role covers the endpoints used (Sales/SuperUser for invoices).
+      `ECONOMIC-AGREEMENT-GRANT-TOKEN`; the app is SuperUser, so the caller's endpoint allowlist is in place and
+      pinned by a test (ticket module = the only one with writes; extract module = GET only).
 - [ ] Writes are drafts; booking/sending is a human step unless the owner decided otherwise.
 - [ ] Every write has an `Idempotency-Key`; the created number is stored on the originating record.
 - [ ] Mapping is a pure, tested module; e-conomic field names appear only in client + mapping.

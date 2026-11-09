@@ -2,16 +2,22 @@
 
 Dated snapshot; update it the day something changes (and write a log entry in Operations Hub `docs/ai/log/`).
 
-## The app
+## The app (owner decision 2026-11-09: one app, role SuperUser)
+
+One app serves both purposes — ticket invoicing for personaleforeninger (EPIC-108) **and** reporting extracts of the
+whole set of books (chart of accounts, entries, income/expenses per account and period). Extracts need `/accounts`,
+`/accounting-years/*/entries`, `/journals`, `/suppliers`, `/budgets`, which only **SuperUser** reaches, so the app
+carries SuperUser. The broad role is compensated in code (see SKILL "Wiring": write allowlist, draft-only writes,
+separate modules), not by a second app.
 
 | Item | Value / where |
 |---|---|
-| Developer-portal app | **Timewinderudtræk** (created by the owner, tha@timewinder.dk, 2026-11-09) |
+| Developer-portal app | **Timewinderudtræk** (created by the owner, tha@timewinder.dk, 2026-11-09), role **SuperUser** |
 | AppPublicToken | Key Vault `tw-opshub-kv` → `ECONOMIC-APP-PUBLIC-TOKEN` (not secret; it is part of the InstallationURL) |
-| AppSecretToken | Key Vault `tw-opshub-kv` → `ECONOMIC-APP-SECRET-TOKEN` (header `X-AppSecretToken`); reset in the portal if leaked, then update the secret |
+| AppSecretToken (`X-AppSecretToken`) | Key Vault `tw-opshub-kv` → `ECONOMIC-APP-SECRET-TOKEN`; reset in the portal if leaked, then update the secret (grants stay valid) |
+| AgreementGrantToken (`X-AgreementGrantToken`) | Key Vault `tw-opshub-kv` → `ECONOMIC-AGREEMENT-GRANT-TOKEN` — **missing** |
 | RedirectURL | empty (grant token is shown on screen after acceptance) |
 | InstallationURL | `https://secure.e-conomic.com/secure/api1/requestaccess.aspx?appPublicToken=<ECONOMIC-APP-PUBLIC-TOKEN>` |
-| App role | **not recorded** — check in the portal (Sales is enough for customers + invoices + products; SuperUser if journals are ever needed) |
 
 ## The agreement grant — MISSING (2026-11-09)
 
@@ -31,7 +37,8 @@ Record from the response: `agreementNumber`, `company.name`, `settings.baseCurre
 ## Operations Hub wiring (planned, not built)
 
 - App settings (Key Vault references in `infra/main.bicep`): `ECONOMIC_APP_SECRET_TOKEN`,
-  `ECONOMIC_AGREEMENT_GRANT_TOKEN`; plain `ECONOMIC_BASE_URL` (default `https://restapi.e-conomic.com`).
+  `ECONOMIC_AGREEMENT_GRANT_TOKEN`; plain `ECONOMIC_BASE_URL` (default `https://restapi.e-conomic.com`). One client
+  module; the ticket flow and the extract module import it with different, explicit endpoint allowlists.
 - Client + mapping modules under `backend/src/services/economic/` (pattern: `sponsorTickets/sponsorFlowClient.ts`).
 - First consumer: EPIC-108 personaleforeningsbilletter — draft invoice per order instead of (or in addition to) the
   mail to `bogholderi@timewinder.dk`. Decision pending (design D9).
