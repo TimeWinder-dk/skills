@@ -165,7 +165,7 @@ The organiser API can write exactly three things:
 
 | Write | Endpoint | Notes |
 |---|---|---|
-| Target group member | `POST /organiser/target_group_members?target_group=<uuid>&code=<code>&quantity=1[&limit=…&space_identifier=…&category_key=…]` | parameters are **query** parameters, not a JSON body; 201 returns the member; 409 = code already in use; `PATCH`/`DELETE /organiser/target_group_members/{id}` exist |
+| Target group member | `POST /organiser/target_group_members?target_group=<uuid>&code=<code>&quantity=1[&limit=…&space_identifier=…&category_key=…]` | parameters are **query** parameters, not a JSON body; 201 returns the member; 409 = code already in use; `PATCH`/`DELETE /organiser/target_group_members/{id}` exist. **`quantity` = total tickets the code can buy** (checkout shows `CODE 0/<quantity>`); `PATCH …/{id}?quantity=10&target_group=<uuid>` changes it (200, verified 2026-11-05). Cost ≈ 45–69 per POST/PATCH |
 | Target group import | `POST /organiser/target_groups/{id}/imports` (see "Create a target group import") | bulk variant of the above |
 | Webhooks | `POST /organiser/webhooks`, `PATCH`, `DELETE`, secret generate/revoke | with key-pair auth an empty POST returned **500** `undefined method 'application_id' for nil` — webhook creation appears to need an OAuth application; create webhooks in the GUI (Integrate → Developers) as Billetto recommends |
 
@@ -182,8 +182,12 @@ Everything else is read-only. Probed and **404**: `POST /organiser/orders`, `POS
   code, and let them claim the 0 kr "Udstillerbillet" through the access-code campaign. Billetto then sends
   the ticket. Redemption is visible on the order (`order_lines[].used_codes`) and via `attendee.registered`
   / `order.completed` webhooks, so an approval flow can close its own loop.
-- Whether an event URL can pre-apply a code (query parameter) is **unverified**; ask Billetto before
-  promising one-click links.
+- **Personal one-click link (verified 2026-11-05, H-AA):** `https://billetto.dk/e/<slug>-<eventId>/select/<CODE>`
+  opens the checkout with the code already applied (Billetto's own route `e/:slug-:id/select/:code?`; the
+  page POSTs `/api/ticket_buyer/events/<id>/offers` with `code`). A query parameter (`/e/...?code=X`) is
+  **ignored**, and `/ticket_buyer/offers/<uuid>` links are one-off checkout sessions — never send those.
+  With `quantity=1` per member the link is effectively personal (one purchase per code). Widget variant:
+  `embed/:slug-:id/tickets/:code?` (untested).
 
 ## 8c. All API versions compared (live, 2026-10-25)
 

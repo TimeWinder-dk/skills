@@ -12,7 +12,7 @@ description: |
   TimeWinder ticket account — even if the user only says "billetsystemet". Always read it before the more
   specific skills billetto-web-sales, billetto-tw-tickets, billetto-ops-hub and billetto-own-ticket-app.
 owner: TimeWinder IT
-lastReviewed: 2026-11-05
+lastReviewed: 2026-11-10
 ---
 
 # Billetto Platform
@@ -127,7 +127,7 @@ per year above 1 000 kr (TimeWinder asked for a lower percentage on those).
       its own PDF/QR, then imports the barcodes into Billetto, where they scan normally (verified end to end
       2026-11-04 incl. lowercase-prefixed barcodes such as `vtb11223344557`). The import is manual in the
       dashboard; the ticket is not valid at the gate until imported. Used for exhibitor free tickets —
-      see `power-automate-specieltickets` and `docs/billetto/README.md`.
+      see `power-automate-specieltickets` (repo `TimeWinder-dk/power-platform`) and `docs/billetto/README.md`.
     - **A unique code** the person redeems themselves (target group + campaign), e.g. paid market stalls.
 
 ## Where things live in the organiser UI *(point in time)*

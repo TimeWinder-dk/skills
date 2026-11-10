@@ -13,7 +13,7 @@ description: |
   website, or webhooks from the ticket vendor. Read billetto-platform first; pair with operations-hub-domain,
   integration-resilience and security-hardening.
 owner: TimeWinder IT
-lastReviewed: 2026-10-25
+lastReviewed: 2026-11-10
 ---
 
 # Billetto in Operations Hub
@@ -67,6 +67,18 @@ ticket type name (Billetto gives it; Place2Book only gave the event name), `quan
 - `cashRegisterName` equals the Billetto terminal name. Add every real terminal name to the entrance's
   `Bar.cashRegisterNames` before the festival; unmapped names must stay visible as `unmapped`, not vanish.
 - Day boundary stays 04:00 Europe/Copenhagen; Billetto timestamps are UTC.
+
+## Price feed as a price source (EPIC-108 personaleforeninger, 2026-11-09)
+
+`services/billettoTicketPrices.ts` is no longer only for the website: `services/staffAssociationTickets/pricing.ts`
+reads the **standard** `priceMinor` of three public types in 2026708 (names in `STAFF_ASSOCIATION_DEFAULT_PRICE_TYPES`,
+override `STAFF_ASSOCIATION_PRICE_TYPES`) and prices staff-association orders as standard price − discount.
+
+- Renaming one of those types in Billetto stops staff-association ordering with a 503 (by design — no guessed
+  price). Update the app setting in the same change; matching ignores case and repeated whitespace, nothing else.
+- Never use a campaign price (`campaigns[].priceMinor`, e.g. Early Bird) as the "online price".
+- The feed drops `vip` types, so the hidden personaleforening types never appear in it — correct, they are 0 kr
+  import targets, not price sources.
 
 ## Pre-day ordering signal (EPIC-96)
 

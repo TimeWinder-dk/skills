@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **billetto-platform / billetto-ops-hub (2026-11-10 sync from Operations Hub)** — ticket types in 2026708 read via
+  the API (ids, prices, hidden flags, which types are price sources for personaleforeningsbilletter), how Billetto
+  packages are built (items are ordinary types; first child paid, further children 0 kr; 2+2 = 2+3 price),
+  canceled duplicate events still listed; the price feed as a price source (standard price only, rename ⇒ 503).
+  Also brings over the Ops Hub notes from 2026-11-05…09 (code `quantity` semantics, personal `/select/<CODE>`
+  link, exhibitor import target moved to 2026708, ticket banner owner decision).
+
 ### Added
 
 - **economic-api 1.0.0 (2026-11-09)** — Visma e-conomic REST API (`restapi.e-conomic.com`) for TimeWinder:

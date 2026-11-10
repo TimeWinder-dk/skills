@@ -64,7 +64,7 @@ user on 2026-02-13.
 | TimeWinder Nostalgi-festival 2027 | 2026708 | published, not public | main entry event, 14–16 May 2027, `availability.available` 68 153 |
 | Nostalgi Camping på TimeWinder 2027 | 2026700 | published, not public | available 665; types include Nostalgivogn/VW/Telt bundles (`BundleTicketType`) with partout adult |
 | Camping på TimeWinder 2027 | 2028486 | published, not public | `total_capacity` 225 |
-| Udstillerbillet 2027 | 2028490 | published, not public | available 2 970; codes via target group "Udstillere 2027" |
+| Udstillerbillet 2027 | 2028490 | published, not public | available 2 970; codes via target group "Udstillere 2027". **No longer the exhibitor import target** — moved to 2026708 types 5383883–5383886 (2026-11-06) |
 | Markedsboder på TimeWinder 2027 | 2035343 | draft | |
 | Glamping på TimeWinder 2027 | 2032249 | draft | |
 | Test af alt | 2036254 | published, not public | test event; one attendee with entrance/exit/entrance scans on "Scanner 1"; universal exit code 2026-10-23 |
@@ -86,6 +86,30 @@ test variant to be hidden) and for the festival (2+1, 2+2, 2+3 children at 450 k
 reading of the setup; 250 kr package mentioned for Friday). Verify prices in the event editor before quoting
 them anywhere.
 
+### Ticket types in 2026708 *(read via the API 2026-11-10, 42 types)*
+
+| Id | Name | Type | Price | Hidden (`vip`) | Used by |
+|---|---|---|---|---|---|
+| 5317707 | Voksen, lørdag eller søndag | Pay | 200 | no | **price source** for personaleforening adult (EPIC-108) |
+| 5317708 | Barn, lørdag eller søndag | Pay | 100 | no | **price source** for personaleforening child |
+| 5317709 / 5317710 | Voksen / Barn, partout | Pay | 350 / 150 | no | |
+| 5317713 / 5317714 | Voksen / Barn, fredag / Aften | Pay | 100 / 50 | no | |
+| 5383880 | Barn, partout, gratis til og med 6 år. | Free | 0 | no | |
+| 5317711 | Handicap ledsager | Free | 0 | no | |
+| 5317712, 5317716 | Politiskolen, test · Tre børn for prisen af et | Free | 0 | yes | |
+| 5320462 / 5320467 | Familie rabat, endags billet. Lørdag eller søndag.  2 voksne & 2 / 3 børn (note the **double space**) | Bundle | 500 | no | **price source** for personaleforening family ticket |
+| 5320482 / 5320473 | Familie rabat, fredags billet. 2 voksne & 2 / 3 børn | Bundle | 250 | no | (5320490 = hidden 0 kr duplicate) |
+| 5383883–5383886 | Udstillerbillet - Veteranbil / Klub / LandRace / AeroDrome | Free | 0 | yes | CSV import `vtb/klb/lrc/aer` |
+| 5383994 | Sponsor Billet | Free | 0 | yes | CSV import `spn` (quantity 1 200) |
+| — | Personaleforening - Voksen lørdag/søndag · Personaleforening - Barn lørdag/søndag | Free | 0 | yes | **not created yet** (2026-11-10) — owner runs `create-ticket-types.browser.js`; CSV import `p???-vok/-brn` |
+
+**Package composition (learned 2026-11-10):** a package's items are ordinary ticket types created right after it,
+with generic names and their own prices that sum to the package price. Saturday/Sunday 2+2 (5320462) = "Voksen,
+endags billet, weekend." 200 + 200 + "Barn, endags billet, weekend." 100 + a 0 kr `FreeTicketType` "Barn …"; 2+3
+(5320467) adds one more 0 kr child. So: the first child is paid, further children are free, and 2+2 and 2+3 cost
+the same. Item names repeat across packages — never match scans on the item name alone. The canceled duplicates
+2026703 (festival) and 2026706 (Test af alt) still appear in `GET /organiser/events` with 0 types; filter on state.
+
 ## Decisions already taken
 
 - Keep three separate events and join them with Basket; a "Køb billetter" button on the website links to
@@ -102,7 +126,8 @@ them anywhere.
 
 1. Adyen onboarding meeting (≈ 30 min) not held; blocks hold-back agreement and rolling payouts.
 2. Hide the 0 kr family test package.
-3. Ticket banner graphics and order-mail text: no owner after Lene declined.
+3. Ticket banner graphics and order-mail text: Lene declined; owner decided 2026-11-09 that an agent designs
+   them (Canva, like the free tickets 2026-11-07) and the owner only approves test tickets (T-108-003).
 4. Widget calendar opens on today's date; Billetto could not confirm the internal setting for the account
    widget. List view chosen instead.
 5. API key pair created 2026-10-25 and stored in `tw-opshub-kv` (`BILLETTO-API-KEY-ID`,
