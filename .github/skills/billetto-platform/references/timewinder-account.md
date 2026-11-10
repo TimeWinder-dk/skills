@@ -101,7 +101,7 @@ them anywhere.
 | 5320482 / 5320473 | Familie rabat, fredags billet. 2 voksne & 2 / 3 børn | Bundle | 250 | no | (5320490 = hidden 0 kr duplicate) |
 | 5383883–5383886 | Udstillerbillet - Veteranbil / Klub / LandRace / AeroDrome | Free | 0 | yes | CSV import `vtb/klb/lrc/aer` |
 | 5383994 | Sponsor Billet | Free | 0 | yes | CSV import `spn` (quantity 1 200) |
-| — | Personaleforening - Voksen lørdag/søndag · Personaleforening - Barn lørdag/søndag | Free | 0 | yes | **not created yet** (2026-11-10) — owner runs `create-ticket-types.browser.js`; CSV import `p???-vok/-brn` |
+| 5385256 · 5385257 | Personaleforening - Voksen lørdag/søndag · Personaleforening - Barn lørdag/søndag | Free | 0 | yes | created 2026-11-10 with `create-ticket-types.browser.js`; CSV import `p???-vok/-brn` |
 
 **Package composition (learned 2026-11-10):** a package's items are ordinary ticket types created right after it,
 with generic names and their own prices that sum to the package price. Saturday/Sunday 2+2 (5320462) = "Voksen,
