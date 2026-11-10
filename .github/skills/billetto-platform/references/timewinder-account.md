@@ -128,6 +128,9 @@ the same. Item names repeat across packages — never match scans on the item na
 2. Hide the 0 kr family test package.
 3. Ticket banner graphics and order-mail text: Lene declined; owner decided 2026-11-09 that an agent designs
    them (Canva, like the free tickets 2026-11-07) and the owner only approves test tickets (T-108-003).
+   **2026-11-10:** three banners (festival / camping / marked) + order-mail texts delivered —
+   `billetto-event-setup/references/ticket-design.md`; waiting for the owner to upload them per event and approve a
+   test ticket.
 4. Widget calendar opens on today's date; Billetto could not confirm the internal setting for the account
    widget. List view chosen instead.
 5. API key pair created 2026-10-25 and stored in `tw-opshub-kv` (`BILLETTO-API-KEY-ID`,
