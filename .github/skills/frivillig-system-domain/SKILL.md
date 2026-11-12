@@ -58,6 +58,35 @@ belong here:
   service. Team roles (`team_member`/`team_owner`) are membership-derived and are not grantable in the generic
   role surface.
 
+## Transition-period identity and membership rules (CrewNet → Volunio → Operations Hub)
+
+Learned in production (T-100-139, 2026-11-12). They apply until the CrewNet sync is stopped at cutover.
+
+- **Merge identities in Volunio, never only in the Operations Hub projection.** An Ops Hub-only merge leaves
+  the loser profile linked (`frivillig_user_id`) to a still-live Volunio identity, and the projection consumer
+  re-activates it on its next run — the merge silently undoes itself. Ops Hub's merge must move the link to
+  the keeper; two profiles linked to two different Volunio identities must be refused and routed to the
+  Volunio merge first.
+- **The duplicate scan never links on name alone.** AD/Entra-provisioned identities typically have a work
+  email and no phone or birthday, while the same person's CrewNet identity has a private email — so the pair
+  is never proposed. Offer an explicit manual pair merge (same preview + blockers). Keep the AD identity (it
+  owns `entra_oid`, i.e. login) and absorb the CrewNet identity; the keeper inherits `crewnet_user_id`.
+- **After a merge two rows carry the same CrewNet id** (there is no unique index on it). Every lookup by
+  CrewNet id must prefer the non-deleted identity, or the sync writes to — or revives — the tombstone.
+- **Membership chain:** CrewNet workplace membership (`is_supervisor` ⇒ lead) in the *active* CrewNet event →
+  `frivillig.Membership` (`source='crewnet'`) via the scheduled sync's `memberships` step → projection →
+  Ops Hub `planning.TeamMembership` (keyed `frivillig_membership_id`) + team-scoped `team_member`/`team_owner`
+  (`source='frivillig-projection'`). In Ops Hub the `Volunteer` role exists only as per-team `team_member`
+  rows, so a person with no team shows no role at all.
+- **CrewNet membership is event-scoped.** `/v1/users?event_id=…` returns every organisation user regardless
+  of the event; "takes part in the event" means a workplace membership or category application in that event.
+- **Revocation is owned, never inferred.** The CrewNet import revokes only its own `source='crewnet'` grants
+  and only for workplaces read completely; a suppressed/failed read must surface as incomplete, never as an
+  empty member list. The Ops Hub projection only stamps and removes rows it created — admin- or Entra-made
+  rows are never adopted or removed.
+- **No Volunio → CrewNet writeback.** To get a user into the active CrewNet event, guide the user to CrewNet;
+  the API's apply/add endpoints exist but writing back is forbidden by the transition architecture.
+
 ## Decision test
 
 Before approving a change, answer all of these unambiguously:

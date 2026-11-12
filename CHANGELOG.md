@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **frivillig-system-domain (2026-11-12, from Operations Hub T-100-139)** — new section "Transition-period
+  identity and membership rules": merge identities in Volunio (an Ops Hub-only merge is undone by the
+  projection), the duplicate scan never proposes AD↔CrewNet twins (manual pair merge; keep the AD identity),
+  CrewNet-id lookups must prefer the live identity after a merge, the CrewNet → Volunio → Ops Hub membership
+  chain and its owned-revocation rules, CrewNet membership is event-scoped, no Volunio → CrewNet writeback.
 - **billetto-platform / billetto-ops-hub (2026-11-10 sync from Operations Hub)** — ticket types in 2026708 read via
   the API (ids, prices, hidden flags, which types are price sources for personaleforeningsbilletter), how Billetto
   packages are built (items are ordinary types; first child paid, further children 0 kr; 2+2 = 2+3 price),
